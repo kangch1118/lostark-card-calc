@@ -3,80 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <title>로스트아크 카드팩 기댓값 계산기</title>
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        max-width: 700px;
-        margin: 40px auto;
-        background: #f9f9f9;
-        padding: 30px;
-        border-radius: 10px;
-    }
-    h1 {
-        text-align: center;
-    }
-    .pack {
-        background: #ffffff;
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-    }
-    label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-    input {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        background: #fff;
-    }
-    th, td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: center;
-    }
-    th {
-        background: #eee;
-    }
+:root {
+    --bg-main: #0e1623;
+    --bg-box: #141f32;
+    --gold: #d4af37;
+    --gold-soft: #bfa24a;
+    --text-main: #e6e6e6;
+    --text-sub: #b0b7c3;
+    --border: #2a3b55;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Pretendard, sans-serif;
+    background: radial-gradient(circle at top, #16233a, var(--bg-main));
+    color: var(--text-main);
+}
+
+.container {
+    max-width: 760px;
+    margin: 50px auto;
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+    text-shadow: 0 0 8px rgba(212,175,55,0.3);
+}
+
+.pack {
+    background: linear-gradient(180deg, #18263d, var(--bg-box));
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.pack label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--gold-soft);
+}
+
+.pack input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background: #0c1422;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+}
+
+.pack input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 6px rgba(212,175,55,0.4);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 35px;
+    background: linear-gradient(180deg, #18263d, var(--bg-box));
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #1d2e4a;
+    color: var(--gold);
+    padding: 14px;
+    font-weight: 700;
+}
+
+td {
+    padding: 14px;
+    border-top: 1px solid var(--border);
+    color: var(--text-sub);
+}
+
+td.legend {
+    color: var(--gold);
+    font-weight: 800;
+    text-shadow: 0 0 6px rgba(212,175,55,0.5);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 13px;
+    color: #7f8ba3;
+}
 </style>
 </head>
+
 <body>
+<div class="container">
+    <h1>로스트아크 카드팩 기댓값 계산기</h1>
 
-<h1>로스트아크 카드팩 기댓값 계산기</h1>
+    <div class="pack">
+        <label>전체 카드 팩 개수</label>
+        <input type="number" id="allPack" value="0">
+    </div>
 
-<div class="pack">
-    <label>전체 카드 팩 개수</label>
-    <input type="number" id="allPack" value="0">
+    <div class="pack">
+        <label>전설 ~ 희귀 카드 팩 개수</label>
+        <input type="number" id="lrPack" value="0">
+    </div>
+
+    <div class="pack">
+        <label>전설 ~ 영웅 카드 팩 개수</label>
+        <input type="number" id="lhPack" value="0">
+    </div>
+
+    <table>
+        <tr>
+            <th>등급</th>
+            <th>기댓값</th>
+        </tr>
+        <tr><td>전설</td><td id="legend" class="legend">0</td></tr>
+        <tr><td>영웅</td><td id="hero">0</td></tr>
+        <tr><td>희귀</td><td id="rare">0</td></tr>
+        <tr><td>고급</td><td id="uncommon">0</td></tr>
+        <tr><td>일반</td><td id="normal">0</td></tr>
+    </table>
+
+    <div class="footer">
+        Lost Ark Card Pack Expectation Calculator
+    </div>
 </div>
-
-<div class="pack">
-    <label>전설~희귀 카드 팩 개수</label>
-    <input type="number" id="lrPack" value="0">
-</div>
-
-<div class="pack">
-    <label>전설~영웅 카드 팩 개수</label>
-    <input type="number" id="lhPack" value="0">
-</div>
-
-<table>
-    <tr>
-        <th>등급</th>
-        <th>기댓값</th>
-    </tr>
-    <tr><td>전설</td><td id="legend">0</td></tr>
-    <tr><td>영웅</td><td id="hero">0</td></tr>
-    <tr><td>희귀</td><td id="rare">0</td></tr>
-    <tr><td>고급</td><td id="uncommon">0</td></tr>
-    <tr><td>일반</td><td id="normal">0</td></tr>
-</table>
 
 <script>
 function calculate() {
@@ -86,19 +148,16 @@ function calculate() {
 
     let legend = 0, hero = 0, rare = 0, uncommon = 0, normal = 0;
 
-    // 전체 카드 팩
     legend += allPack * 0.005;
     hero += allPack * 0.095;
     rare += allPack * 0.40;
     uncommon += allPack * 0.30;
     normal += allPack * 0.20;
 
-    // 전설~희귀 팩
     legend += lrPack * 0.04;
     hero += lrPack * 0.16;
     rare += lrPack * 0.80;
 
-    // 전설~영웅 팩
     legend += lhPack * 0.20;
     hero += lhPack * 0.80;
 
