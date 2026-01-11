@@ -8,98 +8,111 @@
 :root {
     --bg-main: #0e1623;
     --bg-box: #141f32;
-    --gold: #d4af37;
-    --gold-soft: #bfa24a;
+    --gold: #f5c26b;
     --text-main: #e6e6e6;
-    --text-sub: #b0b7c3;
+    --text-sub: #aeb6c3;
     --border: #2a3b55;
 }
 
 body {
     margin: 0;
-    font-family: "Segoe UI", Pretendard, sans-serif;
+    font-family: Pretendard, "Segoe UI", sans-serif;
     background: radial-gradient(circle at top, #16233a, var(--bg-main));
     color: var(--text-main);
 }
 
 .container {
-    max-width: 760px;
+    max-width: 1100px;
     margin: 50px auto;
-    padding: 30px;
+    padding: 20px;
 }
 
 h1 {
     text-align: center;
     color: var(--gold);
-    letter-spacing: 1px;
     margin-bottom: 40px;
-    text-shadow: 0 0 8px rgba(212,175,55,0.3);
+    text-shadow: 0 0 8px rgba(245,194,107,0.4);
 }
 
-.pack {
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+}
+
+.panel {
     background: linear-gradient(180deg, #18263d, var(--bg-box));
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 20px;
+    padding: 25px;
+}
+
+.panel-title {
+    color: var(--gold);
+    font-weight: 700;
     margin-bottom: 20px;
-}
-
-.pack label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--gold-soft);
-}
-
-.pack input {
-    width: 100%;
-    padding: 12px;
     font-size: 16px;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.input-row label {
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.input-row input {
+    width: 90px;
+    padding: 6px 10px;
     background: #0c1422;
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text-main);
+    text-align: right;
 }
 
-.pack input:focus {
+.input-row input:focus {
     outline: none;
     border-color: var(--gold);
-    box-shadow: 0 0 6px rgba(212,175,55,0.4);
+    box-shadow: 0 0 6px rgba(245,194,107,0.4);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 35px;
-    background: linear-gradient(180deg, #18263d, var(--bg-box));
-    border-radius: 10px;
-    overflow: hidden;
 }
 
 th {
-    background: #1d2e4a;
+    text-align: left;
     color: var(--gold);
-    padding: 14px;
-    font-weight: 700;
+    padding-bottom: 12px;
 }
 
 td {
-    padding: 14px;
-    border-top: 1px solid var(--border);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
     color: var(--text-sub);
+}
+
+td.value {
+    text-align: right;
 }
 
 td.legend {
     color: var(--gold);
     font-weight: 800;
-    text-shadow: 0 0 6px rgba(212,175,55,0.5);
+    text-shadow: 0 0 6px rgba(245,194,107,0.5);
 }
 
-.footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 13px;
-    color: #7f8ba3;
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
@@ -108,35 +121,42 @@ td.legend {
 <div class="container">
     <h1>로스트아크 카드팩 기댓값 계산기</h1>
 
-    <div class="pack">
-        <label>전체 카드 팩 개수</label>
-        <input type="number" id="allPack" value="0">
-    </div>
+    <div class="layout">
 
-    <div class="pack">
-        <label>전설 ~ 희귀 카드 팩 개수</label>
-        <input type="number" id="lrPack" value="0">
-    </div>
+        <!-- 왼쪽: 입력 -->
+        <div class="panel">
+            <div class="panel-title">카드팩 입력</div>
 
-    <div class="pack">
-        <label>전설 ~ 영웅 카드 팩 개수</label>
-        <input type="number" id="lhPack" value="0">
-    </div>
+            <div class="input-row">
+                <label>전체 카드 팩</label>
+                <input type="number" id="allPack" value="0">
+            </div>
 
-    <table>
-        <tr>
-            <th>등급</th>
-            <th>기댓값</th>
-        </tr>
-        <tr><td>전설</td><td id="legend" class="legend">0</td></tr>
-        <tr><td>영웅</td><td id="hero">0</td></tr>
-        <tr><td>희귀</td><td id="rare">0</td></tr>
-        <tr><td>고급</td><td id="uncommon">0</td></tr>
-        <tr><td>일반</td><td id="normal">0</td></tr>
-    </table>
+            <div class="input-row">
+                <label>전설 ~ 희귀 카드 팩</label>
+                <input type="number" id="lrPack" value="0">
+            </div>
 
-    <div class="footer">
-        Lost Ark Card Pack Expectation Calculator
+            <div class="input-row">
+                <label>전설 ~ 영웅 카드 팩</label>
+                <input type="number" id="lhPack" value="0">
+            </div>
+        </div>
+
+        <!-- 오른쪽: 결과 -->
+        <div class="panel">
+            <div class="panel-title">기댓값 결과</div>
+
+            <table>
+                <tr><th>등급</th><th class="value">기댓값</th></tr>
+                <tr><td>전설</td><td id="legend" class="value legend">0</td></tr>
+                <tr><td>영웅</td><td id="hero" class="value">0</td></tr>
+                <tr><td>희귀</td><td id="rare" class="value">0</td></tr>
+                <tr><td>고급</td><td id="uncommon" class="value">0</td></tr>
+                <tr><td>일반</td><td id="normal" class="value">0</td></tr>
+            </table>
+        </div>
+
     </div>
 </div>
 
@@ -168,10 +188,10 @@ function calculate() {
     document.getElementById("normal").innerText = normal.toFixed(2);
 }
 
-document.querySelectorAll("input").forEach(input => {
-    input.addEventListener("input", calculate);
+document.querySelectorAll("input").forEach(i => {
+    i.addEventListener("input", calculate);
 });
 </script>
-
 </body>
 </html>
+
