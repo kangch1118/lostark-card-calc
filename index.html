@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>로스트아크 카드팩 기댓값 계산기</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 40px auto;
+        background: #f9f9f9;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    h1 {
+        text-align: center;
+    }
+    .pack {
+        background: #ffffff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: #fff;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background: #eee;
+    }
+</style>
+</head>
+<body>
+
+<h1>로스트아크 카드팩 기댓값 계산기</h1>
+
+<div class="pack">
+    <label>전체 카드 팩 개수</label>
+    <input type="number" id="allPack" value="0">
+</div>
+
+<div class="pack">
+    <label>전설~희귀 카드 팩 개수</label>
+    <input type="number" id="lrPack" value="0">
+</div>
+
+<div class="pack">
+    <label>전설~영웅 카드 팩 개수</label>
+    <input type="number" id="lhPack" value="0">
+</div>
+
+<table>
+    <tr>
+        <th>등급</th>
+        <th>기댓값</th>
+    </tr>
+    <tr><td>전설</td><td id="legend">0</td></tr>
+    <tr><td>영웅</td><td id="hero">0</td></tr>
+    <tr><td>희귀</td><td id="rare">0</td></tr>
+    <tr><td>고급</td><td id="uncommon">0</td></tr>
+    <tr><td>일반</td><td id="normal">0</td></tr>
+</table>
+
+<script>
+function calculate() {
+    const allPack = Number(document.getElementById("allPack").value);
+    const lrPack = Number(document.getElementById("lrPack").value);
+    const lhPack = Number(document.getElementById("lhPack").value);
+
+    let legend = 0, hero = 0, rare = 0, uncommon = 0, normal = 0;
+
+    // 전체 카드 팩
+    legend += allPack * 0.005;
+    hero += allPack * 0.095;
+    rare += allPack * 0.40;
+    uncommon += allPack * 0.30;
+    normal += allPack * 0.20;
+
+    // 전설~희귀 팩
+    legend += lrPack * 0.04;
+    hero += lrPack * 0.16;
+    rare += lrPack * 0.80;
+
+    // 전설~영웅 팩
+    legend += lhPack * 0.20;
+    hero += lhPack * 0.80;
+
+    document.getElementById("legend").innerText = legend.toFixed(2);
+    document.getElementById("hero").innerText = hero.toFixed(2);
+    document.getElementById("rare").innerText = rare.toFixed(2);
+    document.getElementById("uncommon").innerText = uncommon.toFixed(2);
+    document.getElementById("normal").innerText = normal.toFixed(2);
+}
+
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+});
+</script>
+
+</body>
+</html>
