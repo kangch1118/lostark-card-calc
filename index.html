@@ -54,30 +54,38 @@ h1 {
     font-size: 17px;
 }
 
-/* 입력 영역 */
+/* 입력 */
 .input-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 26px; /* 간격 증가 */
+    margin-bottom: 26px;
 }
 
-.input-row label {
+.pack-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     color: var(--gold);
     font-weight: 600;
 }
 
-/* 숫자 입력창 */
+.pack-label img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
 .input-row input {
-    width: 120px;              /* 넓이 증가 */
-    padding: 6px 28px 6px 12px;/* 오른쪽 여백 확보 */
+    width: 120px;
+    padding: 6px 28px 6px 12px;
     background: #0c1422;
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text-main);
     text-align: right;
     font-size: 15px;
-    line-height: 1.4;
 }
 
 .input-row input:focus {
@@ -86,7 +94,7 @@ h1 {
     box-shadow: 0 0 6px rgba(245,194,107,0.4);
 }
 
-/* 결과 테이블 */
+/* 결과 */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -108,7 +116,6 @@ td.value {
     text-align: right;
 }
 
-/* 전설 강조 */
 .legend-main {
     display: block;
     color: var(--gold);
@@ -143,17 +150,26 @@ td.value {
             <div class="panel-title">카드팩 입력</div>
 
             <div class="input-row">
-                <label>전체 카드 팩</label>
+                <label class="pack-label">
+                    <img src="pack_all.png" alt="전체 카드팩">
+                    전체 카드 팩
+                </label>
                 <input type="number" id="allPack" value="0">
             </div>
 
             <div class="input-row">
-                <label>전설 ~ 희귀 카드 팩</label>
+                <label class="pack-label">
+                    <img src="pack_lr.png" alt="전설 희귀 카드팩">
+                    전설 ~ 희귀 카드 팩
+                </label>
                 <input type="number" id="lrPack" value="0">
             </div>
 
             <div class="input-row">
-                <label>전설 ~ 영웅 카드 팩</label>
+                <label class="pack-label">
+                    <img src="pack_lh.png" alt="전설 영웅 카드팩">
+                    전설 ~ 영웅 카드 팩
+                </label>
                 <input type="number" id="lhPack" value="0">
             </div>
         </div>
@@ -213,5 +229,6 @@ document.querySelectorAll("input").forEach(i =>
 </script>
 </body>
 </html>
+
 
 
