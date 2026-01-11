@@ -37,28 +37,29 @@ h1 {
 .layout {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
-    gap: 30px;
+    gap: 36px;
 }
 
 .panel {
     background: linear-gradient(180deg, #18263d, var(--bg-box));
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 25px;
+    border-radius: 12px;
+    padding: 28px;
 }
 
 .panel-title {
     color: var(--gold);
     font-weight: 700;
-    margin-bottom: 20px;
-    font-size: 16px;
+    margin-bottom: 26px;
+    font-size: 17px;
 }
 
+/* 입력 영역 */
 .input-row {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
+    align-items: center;
+    margin-bottom: 26px; /* 간격 증가 */
 }
 
 .input-row label {
@@ -66,14 +67,17 @@ h1 {
     font-weight: 600;
 }
 
+/* 숫자 입력창 */
 .input-row input {
-    width: 90px;
-    padding: 6px 10px;
+    width: 120px;              /* 넓이 증가 */
+    padding: 6px 28px 6px 12px;/* 오른쪽 여백 확보 */
     background: #0c1422;
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text-main);
     text-align: right;
+    font-size: 15px;
+    line-height: 1.4;
 }
 
 .input-row input:focus {
@@ -82,6 +86,7 @@ h1 {
     box-shadow: 0 0 6px rgba(245,194,107,0.4);
 }
 
+/* 결과 테이블 */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -90,11 +95,11 @@ table {
 th {
     text-align: left;
     color: var(--gold);
-    padding-bottom: 12px;
+    padding-bottom: 14px;
 }
 
 td {
-    padding: 12px 0;
+    padding: 16px 0;
     border-bottom: 1px solid var(--border);
     color: var(--text-sub);
 }
@@ -103,10 +108,20 @@ td.value {
     text-align: right;
 }
 
-td.legend {
+/* 전설 강조 */
+.legend-main {
+    display: block;
     color: var(--gold);
     font-weight: 800;
+    font-size: 20px;
     text-shadow: 0 0 6px rgba(245,194,107,0.5);
+}
+
+.legend-detail {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-sub);
 }
 
 @media (max-width: 900px) {
@@ -123,7 +138,7 @@ td.legend {
 
     <div class="layout">
 
-        <!-- 왼쪽: 입력 -->
+        <!-- 입력 -->
         <div class="panel">
             <div class="panel-title">카드팩 입력</div>
 
@@ -143,13 +158,19 @@ td.legend {
             </div>
         </div>
 
-        <!-- 오른쪽: 결과 -->
+        <!-- 결과 -->
         <div class="panel">
             <div class="panel-title">기댓값 결과</div>
 
             <table>
                 <tr><th>등급</th><th class="value">기댓값</th></tr>
-                <tr><td>전설</td><td id="legend" class="value legend">0</td></tr>
+                <tr>
+                    <td>전설</td>
+                    <td class="value">
+                        <span id="legend" class="legend-main">0</span>
+                        <span id="legendDetail" class="legend-detail"></span>
+                    </td>
+                </tr>
                 <tr><td>영웅</td><td id="hero" class="value">0</td></tr>
                 <tr><td>희귀</td><td id="rare" class="value">0</td></tr>
                 <tr><td>고급</td><td id="uncommon" class="value">0</td></tr>
@@ -162,36 +183,35 @@ td.legend {
 
 <script>
 function calculate() {
-    const allPack = Number(document.getElementById("allPack").value);
-    const lrPack = Number(document.getElementById("lrPack").value);
-    const lhPack = Number(document.getElementById("lhPack").value);
+    const all = Number(allPack.value);
+    const lr = Number(lrPack.value);
+    const lh = Number(lhPack.value);
 
-    let legend = 0, hero = 0, rare = 0, uncommon = 0, normal = 0;
+    const legendAll = all * 0.005;
+    const legendLR = lr * 0.04;
+    const legendLH = lh * 0.20;
 
-    legend += allPack * 0.005;
-    hero += allPack * 0.095;
-    rare += allPack * 0.40;
-    uncommon += allPack * 0.30;
-    normal += allPack * 0.20;
+    const legendTotal = legendAll + legendLR + legendLH;
+    legend.innerText = legendTotal.toFixed(2);
 
-    legend += lrPack * 0.04;
-    hero += lrPack * 0.16;
-    rare += lrPack * 0.80;
+    let detail = [];
+    if (lh > 0) detail.push(`전영: ${legendLH.toFixed(2)}`);
+    if (lr > 0) detail.push(`전희: ${legendLR.toFixed(2)}`);
+    if (all > 0) detail.push(`전체: ${legendAll.toFixed(2)}`);
 
-    legend += lhPack * 0.20;
-    hero += lhPack * 0.80;
+    legendDetail.innerText = detail.join(" · ");
 
-    document.getElementById("legend").innerText = legend.toFixed(2);
-    document.getElementById("hero").innerText = hero.toFixed(2);
-    document.getElementById("rare").innerText = rare.toFixed(2);
-    document.getElementById("uncommon").innerText = uncommon.toFixed(2);
-    document.getElementById("normal").innerText = normal.toFixed(2);
+    hero.innerText = (all * 0.095 + lr * 0.16 + lh * 0.80).toFixed(2);
+    rare.innerText = (all * 0.40 + lr * 0.80).toFixed(2);
+    uncommon.innerText = (all * 0.30).toFixed(2);
+    normal.innerText = (all * 0.20).toFixed(2);
 }
 
-document.querySelectorAll("input").forEach(i => {
-    i.addEventListener("input", calculate);
-});
+document.querySelectorAll("input").forEach(i =>
+    i.addEventListener("input", calculate)
+);
 </script>
 </body>
 </html>
+
 
